@@ -1,0 +1,62 @@
+# CyberRAG settings. Any value can be overridden with an environment variable:
+#   CYBERRAG__<SECTION>__<KEY>=value   e.g. CYBERRAG__RETRIEVAL__TOP_K_CVE=12
+# Paths are relative to the project folder.
+
+# Which file in config/llm/ to use. Switch models with:
+#   cyberrag ask --llm qwen3-8b "..."   or   CYBERRAG__LLM_PROFILE=qwen3-8b
+llm_profile: llama3.2-3b
+
+# Extra modules to import at startup, so third-party providers can register
+# themselves without changing this codebase, e.g. ["my_package.my_llm"].
+plugins: []
+
+# Which file in config/embeddings/ to use (model, server, task prefixes). Each
+# embedding model gets its own Qdrant collections, so after switching run
+# `cyberrag index cwe` and `cyberrag index cve` (re-embeds from data/raw/).
+#   nomic-embed-text  best quality, slow on CPU (full NVD: about a day without a GPU)
+#   arctic-embed-xs   ~7-10x faster on CPU (full NVD: ~3.5 h)
+#   arctic-embed-s    in between
+embedding_profile: nomic-embed-text
+
+# Optional overrides on top of the embedding profile.
+embeddings:
+  batch_size: 64
+
+vector_store:
+  provider: qdrant
+  url: http://127.0.0.1:6333
+  quantization: int8            # int8 | none  (int8 needs ~4x less RAM)
+  on_disk: true                 # keep full vectors on disk, quantized copy in RAM
+
+sources:
+  nvd:
+    base_url: https://services.nvd.nist.gov/rest/json/cves/2.0
+    # First full download: "feeds" (yearly bulk files, minutes) or "api" (paged API,
+    # 1-10 hours depending on NVD load). Updates always use the API (`cyberrag sync`).
+    full_download: feeds
+    feeds_url: https://nvd.nist.gov/feeds/json/cve/2.0
+    page_size: 2000             # NVD maximum; also the size of each saved page file
+    delay_no_key_s: 6.0         # NVD: 5 requests / 30 s without a key
+    delay_with_key_s: 0.7       # NVD: 50 requests / 30 s with a key
+    skip_rejected: true
+    live_lookup: true           # fetch a CVE from NVD at query time if it is not indexed
+  cwe:
+    base_url: https://cwe-api.mitre.org/api/v1
+
+retrieval:
+  top_k_cve: 8
+  top_k_cwe: 4
+  prefetch_k: 40                # candidates per search type before hybrid fusion
+  hybrid: true                  # dense + keyword (BM25-style) search
+  enrich_cwe: true              # attach the CWE overview for each retrieved CVE
+
+generation:
+  answer_reserve_tokens: 1024   # room left in the context window for the answer
+  chars_per_token: 3.5          # rough, model-agnostic token estimate
+
+api:
+  host: 127.0.0.1
+  port: 8000
+
+data_dir: data
+prompts_dir: prompts

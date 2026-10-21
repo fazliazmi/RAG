@@ -1,0 +1,12 @@
+# Example: a hosted model through an OpenAI-compatible API.
+# Needs:  pip install -e ".[openai]"   and   OPENAI_API_KEY in .env
+# Change `model` to any chat model your account can use.
+provider: openai_compat
+model: gpt-5-mini
+base_url: https://api.openai.com/v1
+api_key_env: OPENAI_API_KEY
+temperature: 1.0
+num_ctx: 128000
+max_tokens: 2048
+extra:
+  max_tokens_param: max_completion_tokens   # newer OpenAI models renamed this parameter

@@ -1,0 +1,10 @@
+# nomic-embed-text v1.5: 137M parameters, 768 dimensions. The best retrieval
+# quality of the bundled profiles, and the slowest on a CPU: about 5 CVEs/s on
+# an 8-core laptop CPU, so the full NVD takes about a day without a GPU.
+# Pull it with:  ollama pull nomic-embed-text
+provider: ollama
+model: nomic-embed-text
+base_url: http://127.0.0.1:11434
+max_chars: 2000
+doc_prefix: "search_document: "
+query_prefix: "search_query: "

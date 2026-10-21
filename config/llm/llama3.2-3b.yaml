@@ -1,0 +1,7 @@
+# Default local model via Ollama.  Pull it with:  ollama pull llama3.2:3b
+provider: ollama
+model: llama3.2:3b
+base_url: http://127.0.0.1:11434
+temperature: 0.1
+num_ctx: 8192        # context window used for retrieved text (model supports up to 128k)
+max_tokens: 1024     # answer length limit

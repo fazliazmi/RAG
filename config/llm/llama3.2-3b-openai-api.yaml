@@ -1,0 +1,14 @@
+# Same llama3.2:3b, but reached through the OpenAI-compatible API that Ollama
+# also serves. This shows the openai_compat provider, which works the same way
+# with vLLM, LM Studio, llama.cpp server, OpenAI, Groq, OpenRouter, ...
+# Needs:  pip install -e ".[openai]"
+provider: openai_compat
+model: llama3.2:3b
+base_url: http://127.0.0.1:11434/v1
+temperature: 0.1
+# The OpenAI-style API has no context-size option, so Ollama uses its own default
+# window (4096 unless OLLAMA_CONTEXT_LENGTH is set). Keep num_ctx at or below what
+# the server really allows: it sets the retrieval budget, and an oversized prompt
+# is cut off silently.
+num_ctx: 4096
+max_tokens: 1024

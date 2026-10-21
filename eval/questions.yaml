@@ -1,0 +1,67 @@
+# Evaluation set for `cyberrag eval`. A question passes retrieval if any ID in
+# `expected` is in the retrieved context, and passes citation if the answer
+# mentions one. `requires` skips the question when that index is missing.
+
+# ---- CWE (works after: cyberrag fetch cwe && cyberrag index cwe) ----
+- question: How can I prevent SQL injection in my web application?
+  expected: [CWE-89]
+  requires: cwe
+- question: What is CWE-79 and what are its consequences?
+  expected: [CWE-79]
+  requires: cwe
+- question: What is the difference between stored and reflected cross-site scripting?
+  expected: [CWE-79]
+  requires: cwe
+- question: Which weakness lets attackers read files outside the intended folder using ../ sequences?
+  expected: [CWE-22, CWE-23]
+  requires: cwe
+- question: What is a use-after-free bug and how is it detected?
+  expected: [CWE-416]
+  requires: cwe
+- question: How do I mitigate OS command injection?
+  expected: [CWE-78, CWE-77]
+  requires: cwe
+- question: What is an out-of-bounds write?
+  expected: [CWE-787]
+  requires: cwe
+- question: How is cross-site request forgery prevented?
+  expected: [CWE-352]
+  requires: cwe
+- question: Why is deserialization of untrusted data dangerous?
+  expected: [CWE-502]
+  requires: cwe
+- question: What is server-side request forgery?
+  expected: [CWE-918]
+  requires: cwe
+- question: What are the risks of hard-coded credentials in source code?
+  expected: [CWE-798, CWE-259]
+  requires: cwe
+- question: What does CWE-287 describe?
+  expected: [CWE-287]
+  requires: cwe
+
+# ---- CVE (works after: cyberrag fetch cve && cyberrag index cve) ----
+- question: What is CVE-2024-3094?
+  expected: [CVE-2024-3094]
+  requires: cve
+- question: What is Log4Shell and which Log4j versions are affected?
+  expected: [CVE-2021-44228]
+  requires: cve
+- question: Describe the Heartbleed vulnerability in OpenSSL.
+  expected: [CVE-2014-0160]
+  requires: cve
+- question: What is the BlueKeep remote code execution vulnerability in Remote Desktop Services?
+  expected: [CVE-2019-0708]
+  requires: cve
+- question: Which CWE weaknesses does CVE-2021-44228 map to?
+  expected: [CWE-502, CWE-917, CWE-20, CWE-400]
+  requires: cve
+- question: What is the Citrix Bleed vulnerability in NetScaler ADC and Gateway?
+  expected: [CVE-2023-4966]
+  requires: cve
+- question: Which SMBv1 remote code execution vulnerability was exploited by EternalBlue?
+  expected: [CVE-2017-0144, CVE-2017-0143, CVE-2017-0145, CVE-2017-0146, CVE-2017-0148]
+  requires: cve
+- question: Which Apache Struts Jakarta multipart parser vulnerability allowed remote code execution?
+  expected: [CVE-2017-5638]
+  requires: cve

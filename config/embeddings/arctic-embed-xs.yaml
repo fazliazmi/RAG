@@ -1,0 +1,10 @@
+# Snowflake arctic-embed-xs: 22M parameters, 384 dimensions. About 7-10x faster
+# than nomic-embed-text on a CPU (~30 CVEs/s on an 8-core laptop CPU, so the full
+# NVD takes ~3.5 hours), with slightly lower quality on general benchmarks.
+# Pull it with:  ollama pull snowflake-arctic-embed:22m
+provider: ollama
+model: snowflake-arctic-embed:22m
+base_url: http://127.0.0.1:11434
+max_chars: 2000
+doc_prefix: ""
+query_prefix: "Represent this sentence for searching relevant passages: "

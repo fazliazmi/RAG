@@ -1,0 +1,10 @@
+# Example: a larger local model.  Pull it with:  ollama pull qwen3:8b
+# Use it with:  cyberrag ask --llm qwen3-8b "..."
+provider: ollama
+model: qwen3:8b
+base_url: http://127.0.0.1:11434
+temperature: 0.1
+num_ctx: 16384
+max_tokens: 1536
+extra:
+  think: false       # skip qwen3's long "thinking" output for faster answers

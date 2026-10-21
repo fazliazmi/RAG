@@ -1,0 +1,20 @@
+services:
+  qdrant:
+    image: qdrant/qdrant:v1.19.2
+    container_name: cyberrag-qdrant
+    restart: unless-stopped
+    ports:
+      # Bound to localhost only: Qdrant has no authentication in this setup.
+      - "127.0.0.1:6333:6333"
+      - "127.0.0.1:6334:6334"
+    environment:
+      QDRANT__TELEMETRY_DISABLED: "true"
+    volumes:
+      # Named volumes, not bind mounts: Qdrant storage on a Windows/macOS
+      # bind-mounted folder can be slow or corrupt data.
+      - qdrant_storage:/qdrant/storage
+      - qdrant_snapshots:/qdrant/snapshots
+
+volumes:
+  qdrant_storage:
+  qdrant_snapshots:
